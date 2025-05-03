@@ -5,6 +5,27 @@ const form = document.getElementById("f-backoffice");
 const titolo = document.getElementById("titolo");
 titolo.classList.add("d-flex", "align-items-center");
 
+document.getElementById("cancella").addEventListener("click", () => {
+  fetch(`https://striveschool-api.herokuapp.com/api/product/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODE0OWViYTFjMjUwNDAwMTUxYWI3MTciLCJpYXQiOjE3NDYxODE4MTksImV4cCI6MTc0NzM5MTQxOX0.PD6pLsce83Cf-NANpLxohykJOQTiAfGs3sEJgUox8lk",
+    },
+  })
+    .then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      } else {
+        throw new Error(`errore nella chiamata`, resp.status);
+      }
+    })
+    .then((phone) => {
+      alert("hai cancellato correttamente l'articolo");
+    })
+    .catch((error) => console.log(`error`, error));
+});
 document.getElementById("reset").addEventListener("click", function () {
   form.reset();
 });

@@ -25,6 +25,8 @@ fetch(`https://striveschool-api.herokuapp.com/api/product/`, {
   })
   .then((array) => {
     array.forEach((element) => {
+      const para = new URLSearchParams(window.location.search);
+      const id = para.get("phoneId");
       const cardC = document.getElementById("card");
       const sottoCard = document.createElement("div");
       const img = document.createElement("img");
@@ -35,7 +37,7 @@ fetch(`https://striveschool-api.herokuapp.com/api/product/`, {
       const contButt = document.createElement("div");
       const buttonDet = document.createElement("a");
       const buttonMod = document.createElement("a");
-      const buttonDele = document.createElement("button");
+      const buttonDele = document.createElement("a");
       const imgDele = document.createElement("img");
 
       caricamento(true);
@@ -62,6 +64,7 @@ fetch(`https://striveschool-api.herokuapp.com/api/product/`, {
       imgDele.width = "50";
       imgDele.height = "50";
       buttonDele.classList.add("border-0", "p-0");
+      buttonDele.href = `./backoffice.html?phoneId=${element._id}`;
       contButt.classList.add("d-flex", "justify-content-between");
       sottoCard.classList.add("d-flex", "card", "w-25", "my-5", "border-0");
       cardC.classList.add("d-flex", "gap-5");
@@ -77,27 +80,6 @@ fetch(`https://striveschool-api.herokuapp.com/api/product/`, {
       contButt.appendChild(buttonMod);
       contButt.appendChild(buttonDele);
       cardC.appendChild(sottoCard);
-      buttonDele.addEventListener("click", () => {
-        fetch(`https://striveschool-api.herokuapp.com/api/product/`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODE0OWViYTFjMjUwNDAwMTUxYWI3MTciLCJpYXQiOjE3NDYxODE4MTksImV4cCI6MTc0NzM5MTQxOX0.PD6pLsce83Cf-NANpLxohykJOQTiAfGs3sEJgUox8lk",
-          },
-        })
-          .then((resp) => {
-            if (resp.ok) {
-              return resp.json();
-            } else {
-              throw new Error(`errore nella chiamata`, resp.status);
-            }
-          })
-          .then((phone) => {
-            alert("hai cancellato correttamente l'articolo");
-          })
-          .catch((error) => console.log(`error`, error));
-      });
     });
   })
   .catch((error) => console.log(`error`, error));
